@@ -360,8 +360,6 @@ function App() {
       ) : (
         // CLASSIFIED TRANSMISSIONS PAGE (with scroll)
         <>
-          <AmbientSound />
-
           {/* Animated background gradients */}
           <div className="fixed inset-0 bg-gradient-to-b from-[#2a1e00] via-black to-black" />
 
@@ -385,23 +383,22 @@ function App() {
           {/* Landing Section */}
           <section className="landing-section">
             <motion.div
+                className="subtitle"
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              WENCORP ARCHIVES
+            </motion.div>
+            <motion.div
               className="title-container"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 2, ease: 'easeOut' }}
             >
-              <WencorpLogo />
-
               <h1 className="main-title">
                 <span className="glitch-text-sub">CLASSIFIED TRANSMISSIONS</span>
               </h1>
-              <motion.div
-                className="subtitle"
-                animate={{ opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                WENCORP ARCHIVES
-              </motion.div>
+
             </motion.div>
 
             <motion.div

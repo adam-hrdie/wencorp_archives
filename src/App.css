@@ -257,6 +257,12 @@
 .glitch-text-sub {
   display: inline-block;
   color: #e8b86d;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-stretch: condensed;
+  letter-spacing: 0.15em;
+  font-size: clamp(2rem, 8vw, 5rem);
+  text-transform: uppercase;
   text-shadow:
     0 0 15px rgba(232, 184, 109, 0.6),
     0 0 30px rgba(232, 184, 109, 0.4),
