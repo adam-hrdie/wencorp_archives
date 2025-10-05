@@ -172,7 +172,11 @@ export default function PlaybackConsole({ mix, onClose }: PlaybackConsoleProps) 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
-    if (audioRef.current) {
+
+    if (mix.soundcloudUrl && widgetRef.current) {
+      // SoundCloud volume is 0-100
+      widgetRef.current.setVolume(newVolume * 100);
+    } else if (audioRef.current) {
       audioRef.current.volume = newVolume;
     }
   };
