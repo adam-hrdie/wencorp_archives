@@ -301,13 +301,8 @@ function App() {
           </motion.div>
         </WallaceOffice>
       ) : currentPage === 'splash' ? (
-        // SPLASH PAGE (no scroll)
-        <div style={{
-          position: 'fixed',
-          inset: 0,
-          overflow: 'hidden',
-          background: 'linear-gradient(to bottom, #0a0907, #1a1410, #000)'
-        }}>
+        // SPLASH PAGE
+        <div className="splash-page-wrapper">
           <AmbientSound />
 
           {/* System Info */}
