@@ -69,7 +69,7 @@ export default function AmbientSound() {
   return (
     <motion.div
       className="ambient-control"
-      initial={{ opacity: 0, x: 100 }}
+      initial={{ opacity: 0, x: -100 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 1, duration: 1 }}
     >

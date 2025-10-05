@@ -1,7 +1,7 @@
 .ambient-control {
   position: fixed;
   top: 2rem;
-  right: 2rem;
+  left: 2rem;
   z-index: 999;
 }
 
@@ -89,7 +89,7 @@
 @media (max-width: 768px) {
   .ambient-control {
     top: 1rem;
-    right: 1rem;
+    left: 1rem;
   }
 
   .ambient-toggle {

@@ -128,7 +128,7 @@ function App() {
               fontFamily: 'Courier New, monospace',
               marginBottom: '4rem'
             }}>
-              CORPORATE MEMORY CORE
+              FOR THE CONTINUITY OF SOUND
             </p>
 
             {/* Spotify Playlists */}
@@ -248,6 +248,8 @@ function App() {
           overflow: 'hidden',
           background: 'linear-gradient(to bottom, #0a0907, #1a1410, #000)'
         }}>
+          <AmbientSound />
+
           {/* System Info */}
           <motion.div
             className="system-overlay"
