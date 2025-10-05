@@ -143,6 +143,14 @@ export default function PlaybackConsole({ mix, onClose }: PlaybackConsoleProps) 
         widgetRef.current.bind((window as any).SC.Widget.Events.PLAY_PROGRESS, (e: any) => {
           setCurrentTime(e.currentPosition / 1000);
         });
+
+        widgetRef.current.bind((window as any).SC.Widget.Events.PLAY, () => {
+          setIsPlaying(true);
+        });
+
+        widgetRef.current.bind((window as any).SC.Widget.Events.PAUSE, () => {
+          setIsPlaying(false);
+        });
       }
     };
 
@@ -151,21 +159,31 @@ export default function PlaybackConsole({ mix, onClose }: PlaybackConsoleProps) 
     };
   }, [mix.soundcloudUrl]);
 
-  const togglePlayPause = () => {
+  const togglePlayPause = async () => {
     if (mix.soundcloudUrl && widgetRef.current) {
       if (isPlaying) {
         widgetRef.current.pause();
+        setIsPlaying(false);
       } else {
-        widgetRef.current.play();
+        try {
+          await widgetRef.current.play();
+          setIsPlaying(true);
+        } catch (error) {
+          console.error('Failed to play SoundCloud track:', error);
+        }
       }
-      setIsPlaying(!isPlaying);
     } else if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
+        setIsPlaying(false);
       } else {
-        audioRef.current.play();
+        try {
+          await audioRef.current.play();
+          setIsPlaying(true);
+        } catch (error) {
+          console.error('Failed to play audio:', error);
+        }
       }
-      setIsPlaying(!isPlaying);
     }
   };
 

@@ -17,7 +17,7 @@ const MIXES = [
     runtime: '60:00',
     albumArt: 'https://picsum.photos/seed/mix1/400/400',
     audioUrl: '',
-    soundcloudUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2180324547&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true'
+    soundcloudUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2180324547&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false'
   },
   {
     id: 2,
@@ -26,7 +26,7 @@ const MIXES = [
     runtime: '60:00',
     albumArt: 'https://picsum.photos/seed/mix3/400/400',
     audioUrl: '',
-    soundcloudUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2180318663%3Fsecret_token%3Ds-XPCxfjoTBXl&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true'
+    soundcloudUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2180318663%3Fsecret_token%3Ds-XPCxfjoTBXl&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false'
   },
   {
     id: 3,
@@ -35,7 +35,7 @@ const MIXES = [
     runtime: '120:00',
     albumArt: 'https://picsum.photos/seed/mix3/400/400',
     audioUrl: '',
-    soundcloudUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2176689102&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true'
+    soundcloudUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2176689102&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false'
   },
   {
     id: 4,
@@ -44,7 +44,7 @@ const MIXES = [
     runtime: '76:46',
     albumArt: 'https://picsum.photos/seed/mix2/400/400',
     audioUrl: '',
-    soundcloudUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2088560235%3Fsecret_token%3Ds-y1SJrW3n9dn&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true'
+    soundcloudUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2088560235%3Fsecret_token%3Ds-y1SJrW3n9dn&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false'
   },
 ];
 
@@ -93,7 +93,7 @@ function App() {
               letterSpacing: '0.2em',
               cursor: 'pointer',
               fontFamily: 'Rajdhani, sans-serif',
-              zIndex: 100
+              zIndex: 1000
             }}
             whileHover={{
               borderColor: 'rgba(244, 185, 66, 0.8)',
@@ -112,13 +112,17 @@ function App() {
               textAlign: 'center',
               color: '#f4b942',
               textShadow: '0 0 20px rgba(244, 185, 66, 0.5)',
-              maxWidth: '1200px',
+              maxWidth: '1400px',
               width: '100%',
-              padding: '0 2rem'
+              padding: '2rem',
+              overflowY: 'auto',
+              maxHeight: '90vh',
+              position: 'relative',
+              zIndex: 100
             }}
           >
             <h1 style={{
-              fontSize: '3rem',
+              fontSize: 'clamp(2rem, 5vw, 3rem)',
               letterSpacing: '0.3em',
               fontWeight: 300,
               fontFamily: 'Rajdhani, sans-serif',
@@ -127,11 +131,11 @@ function App() {
               AMBIENT SYSTEMS
             </h1>
             <p style={{
-              fontSize: '0.875rem',
+              fontSize: 'clamp(0.7rem, 2vw, 0.875rem)',
               letterSpacing: '0.2em',
               opacity: 0.6,
               fontFamily: 'Courier New, monospace',
-              marginBottom: '4rem'
+              marginBottom: '2rem'
             }}>
               FOR THE CONTINUITY OF SOUND
             </p>
@@ -139,9 +143,10 @@ function App() {
             {/* Spotify Playlists */}
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 350px), 1fr))',
               gap: '2rem',
-              marginTop: '3rem'
+              marginTop: '2rem',
+              paddingBottom: '4rem'
             }}>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -234,6 +239,56 @@ function App() {
                   data-testid="embed-iframe"
                   style={{ borderRadius: '12px' }}
                   src="https://open.spotify.com/embed/playlist/4aS2d7LVrqDNIMZpqASeVK?utm_source=generator"
+                  width="100%"
+                  height="352"
+                  frameBorder="0"
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, delay: 2.8 }}
+                style={{
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  padding: '1.5rem',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(244, 185, 66, 0.2)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
+                }}
+              >
+                <iframe
+                  data-testid="embed-iframe"
+                  style={{ borderRadius: '12px' }}
+                  src="https://open.spotify.com/embed/playlist/7sHuv0MJCH5NBvYozwV05U?utm_source=generator"
+                  width="100%"
+                  height="352"
+                  frameBorder="0"
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, delay: 3.0 }}
+                style={{
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  padding: '1.5rem',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(244, 185, 66, 0.2)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
+                }}
+              >
+                <iframe
+                  data-testid="embed-iframe"
+                  style={{ borderRadius: '12px' }}
+                  src="https://open.spotify.com/embed/playlist/37i9dQZF1DZ06evO3F7Ced?utm_source=generator"
                   width="100%"
                   height="352"
                   frameBorder="0"
