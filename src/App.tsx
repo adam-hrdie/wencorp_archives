@@ -6,6 +6,7 @@ import MixVault from './components/MixVault';
 import PlaybackConsole from './components/PlaybackConsole';
 import AmbientSound from './components/AmbientSound';
 import WencorpLogo from './components/WencorpLogo';
+import WallaceOffice from './components/WallaceOffice';
 
 const MIXES = [
   {
@@ -43,7 +44,7 @@ const MIXES = [
 ];
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'splash' | 'transmissions'>('splash');
+  const [currentPage, setCurrentPage] = useState<'splash' | 'transmissions' | 'ambient'>('splash');
   const [selectedMix, setSelectedMix] = useState<number | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -70,7 +71,176 @@ function App() {
 
   return (
     <div className="app-container" ref={containerRef}>
-      {currentPage === 'splash' ? (
+      {currentPage === 'ambient' ? (
+        // AMBIENT SYSTEMS PAGE (Wallace Office)
+        <WallaceOffice>
+          <motion.button
+            onClick={() => setCurrentPage('splash')}
+            style={{
+              position: 'fixed',
+              top: '2rem',
+              left: '2rem',
+              padding: '0.75rem 1.5rem',
+              border: '1px solid rgba(244, 185, 66, 0.4)',
+              color: '#f4b942',
+              background: 'rgba(0, 0, 0, 0.5)',
+              fontSize: '0.75rem',
+              letterSpacing: '0.2em',
+              cursor: 'pointer',
+              fontFamily: 'Rajdhani, sans-serif',
+              zIndex: 100
+            }}
+            whileHover={{
+              borderColor: 'rgba(244, 185, 66, 0.8)',
+              boxShadow: '0 0 15px rgba(244, 185, 66, 0.3)'
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            ← RETURN
+          </motion.button>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 2, delay: 1.5 }}
+            style={{
+              textAlign: 'center',
+              color: '#f4b942',
+              textShadow: '0 0 20px rgba(244, 185, 66, 0.5)',
+              maxWidth: '1200px',
+              width: '100%',
+              padding: '0 2rem'
+            }}
+          >
+            <h1 style={{
+              fontSize: '3rem',
+              letterSpacing: '0.3em',
+              fontWeight: 300,
+              fontFamily: 'Rajdhani, sans-serif',
+              marginBottom: '1rem'
+            }}>
+              AMBIENT SYSTEMS
+            </h1>
+            <p style={{
+              fontSize: '0.875rem',
+              letterSpacing: '0.2em',
+              opacity: 0.6,
+              fontFamily: 'Courier New, monospace',
+              marginBottom: '4rem'
+            }}>
+              CORPORATE MEMORY CORE
+            </p>
+
+            {/* Spotify Playlists */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+              gap: '2rem',
+              marginTop: '3rem'
+            }}>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, delay: 2 }}
+                style={{
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  padding: '1.5rem',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(244, 185, 66, 0.2)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
+                }}
+              >
+                <iframe
+                  data-testid="embed-iframe"
+                  style={{ borderRadius: '12px' }}
+                  src="https://open.spotify.com/embed/playlist/0Toddq8bzNqjlefwuUKmrp?utm_source=generator"
+                  width="100%"
+                  height="352"
+                  frameBorder="0"
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, delay: 2.2 }}
+                style={{
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  padding: '1.5rem',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(244, 185, 66, 0.2)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
+                }}
+              >
+                <iframe
+                  data-testid="embed-iframe"
+                  style={{ borderRadius: '12px' }}
+                  src="https://open.spotify.com/embed/playlist/49ewHzvNvGqTYAg7hDZty2?utm_source=generator"
+                  width="100%"
+                  height="352"
+                  frameBorder="0"
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, delay: 2.4 }}
+                style={{
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  padding: '1.5rem',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(244, 185, 66, 0.2)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
+                }}
+              >
+                <iframe
+                  data-testid="embed-iframe"
+                  style={{ borderRadius: '12px' }}
+                  src="https://open.spotify.com/embed/playlist/1eb5Z8zsMpbtbmUQ7ANdRE?utm_source=generator"
+                  width="100%"
+                  height="352"
+                  frameBorder="0"
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, delay: 2.6 }}
+                style={{
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  padding: '1.5rem',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(244, 185, 66, 0.2)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
+                }}
+              >
+                <iframe
+                  data-testid="embed-iframe"
+                  style={{ borderRadius: '12px' }}
+                  src="https://open.spotify.com/embed/playlist/4aS2d7LVrqDNIMZpqASeVK?utm_source=generator"
+                  width="100%"
+                  height="352"
+                  frameBorder="0"
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                />
+              </motion.div>
+            </div>
+          </motion.div>
+        </WallaceOffice>
+      ) : currentPage === 'splash' ? (
         // SPLASH PAGE (no scroll)
         <div style={{
           position: 'fixed',
@@ -153,14 +323,17 @@ function App() {
                 </motion.div>
 
                 <motion.div
-                  className="vault-slot vault-slot-locked"
+                  className="vault-slot"
+                  onClick={() => setCurrentPage('ambient')}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 1.5 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   <div className="vault-label">
                     <span>AMBIENT SYSTEMS</span>
-                    <span className="vault-status">LOCKED</span>
+                    <span className="vault-status">READY</span>
                   </div>
                 </motion.div>
 

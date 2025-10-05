@@ -1,0 +1,262 @@
+/* Wallace Office - Blade Runner 2049 inspired scene */
+
+.wallace-office {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #0c0906;
+  perspective: 1000px;
+}
+
+/* Radial gradient background - deep amber cathedral */
+.wallace-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 120% 80% at 50% 30%,
+    #2d1c00 0%,
+    #1a1200 30%,
+    #0f0a05 60%,
+    #0c0906 100%
+  );
+  z-index: 1;
+}
+
+/* Ceiling with moving caustic patterns */
+.caustic-ceiling {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(244, 185, 66, 0.15), transparent 60%),
+    radial-gradient(circle at 30% 20%, rgba(139, 90, 0, 0.1), transparent 50%),
+    radial-gradient(circle at 70% 15%, rgba(244, 185, 66, 0.08), transparent 45%);
+  background-size: 200% 200%, 150% 150%, 180% 180%;
+  opacity: 0.6;
+  mix-blend-mode: screen;
+  z-index: 2;
+}
+
+/* Floor with reflection and caustics */
+.wallace-floor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(
+    to top,
+    #1a1000 0%,
+    #0f0906 40%,
+    transparent 100%
+  );
+  z-index: 2;
+}
+
+.floor-caustic {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(244, 185, 66, 0.08), transparent 70%),
+    radial-gradient(circle at 40% 80%, rgba(139, 90, 0, 0.06), transparent 50%),
+    radial-gradient(circle at 60% 90%, rgba(244, 185, 66, 0.05), transparent 45%);
+  background-size: 250% 250%, 180% 180%, 200% 200%;
+  opacity: 0.5;
+  mix-blend-mode: screen;
+}
+
+/* Side walls with subtle gradients */
+.wallace-wall {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 30%;
+  z-index: 1;
+}
+
+.wallace-wall-left {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    rgba(26, 18, 0, 0.5) 0%,
+    transparent 100%
+  );
+}
+
+.wallace-wall-right {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    rgba(26, 18, 0, 0.5) 0%,
+    transparent 100%
+  );
+}
+
+.wall-shimmer {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 50% 80% at 50% 50%,
+    rgba(244, 185, 66, 0.06),
+    transparent 70%
+  );
+  opacity: 0.2;
+}
+
+/* Volumetric light beam from skylight */
+.light-beam-center {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 120%;
+  background: linear-gradient(
+    to bottom,
+    rgba(244, 185, 66, 0.12) 0%,
+    rgba(139, 90, 0, 0.08) 30%,
+    rgba(244, 185, 66, 0.05) 60%,
+    transparent 100%
+  );
+  filter: blur(60px);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Atmospheric haze layers */
+.atmospheric-haze {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.3;
+  mix-blend-mode: screen;
+  z-index: 4;
+}
+
+.haze-1 {
+  top: 20%;
+  left: 15%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(244, 185, 66, 0.03) 0%,
+    transparent 70%
+  );
+  animation: float1 25s ease-in-out infinite;
+}
+
+.haze-2 {
+  top: 40%;
+  right: 20%;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(
+    circle,
+    rgba(139, 90, 0, 0.02) 0%,
+    transparent 70%
+  );
+  animation: float2 30s ease-in-out infinite;
+}
+
+.haze-3 {
+  bottom: 10%;
+  left: 40%;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(
+    circle,
+    rgba(244, 185, 66, 0.025) 0%,
+    transparent 70%
+  );
+  animation: float3 35s ease-in-out infinite;
+}
+
+@keyframes float1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -20px) scale(1.1); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-40px, 30px) scale(1.15); }
+}
+
+@keyframes float3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, -40px) scale(1.05); }
+}
+
+/* Central altar/platform */
+.central-altar {
+  position: absolute;
+  bottom: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 150px;
+  z-index: 5;
+}
+
+.altar-platform {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(244, 185, 66, 0.4) 50%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 40px rgba(244, 185, 66, 0.3),
+    0 0 80px rgba(139, 90, 0, 0.2);
+}
+
+.altar-glow {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  height: 100px;
+  background: radial-gradient(
+    ellipse 60% 50% at 50% 0%,
+    rgba(244, 185, 66, 0.15),
+    transparent 70%
+  );
+  filter: blur(30px);
+  opacity: 0.8;
+}
+
+/* Content container */
+.wallace-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Subtle scanline overlay */
+.scanline-overlay {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    rgba(244, 185, 66, 0.01) 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 20;
+  opacity: 0.3;
+}
