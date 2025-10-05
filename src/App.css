@@ -379,6 +379,26 @@
   margin: 8rem 0;
 }
 
+@media (max-width: 768px) {
+  .vaults-section {
+    padding: 2rem 0.5rem 4rem;
+  }
+
+  .vault-container {
+    margin: 4rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .vaults-section {
+    padding: 2rem 0 4rem;
+  }
+
+  .vault-container {
+    margin: 3rem 0;
+  }
+}
+
 /* Footer */
 .footer-section {
   position: relative;

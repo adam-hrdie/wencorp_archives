@@ -39,7 +39,7 @@ const MIXES = [
   },
   {
     id: 4,
-    title: '170-180 BPM TEST',
+    title: '160-180 BPM TEST',
     artist: 'DIEHARD B2B STATELESS B2B MSL',
     runtime: '76:46',
     albumArt: 'https://picsum.photos/seed/mix2/400/400',
