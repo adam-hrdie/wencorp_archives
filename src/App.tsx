@@ -7,6 +7,7 @@ import PlaybackConsole from './components/PlaybackConsole';
 import AmbientSound from './components/AmbientSound';
 import WencorpLogo from './components/WencorpLogo';
 import WallaceOffice from './components/WallaceOffice';
+import Dust from './components/Dust';
 
 const MIXES = [
   {
@@ -360,6 +361,13 @@ function App() {
       ) : (
         // CLASSIFIED TRANSMISSIONS PAGE (with scroll)
         <>
+          {/* Floating Dust Particles */}
+          <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 5 }}>
+            <Canvas camera={{ position: [0, 1.5, 3], fov: 60 }}>
+              <Dust count={800} />
+            </Canvas>
+          </div>
+
           {/* Animated background gradients */}
           <div className="fixed inset-0 bg-gradient-to-b from-[#2a1e00] via-black to-black" />
 

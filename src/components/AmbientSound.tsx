@@ -76,7 +76,6 @@ export default function AmbientSound() {
       <button
         className="ambient-toggle"
         onClick={toggleAmbient}
-        disabled={!audioRef.current}
       >
         <motion.div
           className="ambient-icon"
