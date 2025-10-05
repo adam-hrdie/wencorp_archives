@@ -109,73 +109,76 @@ function App() {
                 animate={{ opacity: [0.5, 1, 0.5] }}
                 transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
               >
-                ACCESS VAULT
+                CORPORATE MEMORY CORE
               </motion.div>
             </motion.div>
 
-            {/* Vault Selection Buttons */}
+            {/* Archive Vault Drawer */}
             <motion.div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1.5rem',
-                marginTop: '4rem'
-              }}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.5, delay: 1 }}
+              className="archive-vault-container"
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 1.2, delay: 1, ease: 'easeOut' }}
             >
-              <motion.button
-                onClick={() => setCurrentPage('transmissions')}
-                style={{
-                  padding: '1rem 3rem',
-                  border: '1px solid rgba(212, 165, 116, 0.4)',
-                  color: '#d4a574',
-                  background: 'transparent',
-                  fontSize: '0.875rem',
-                  letterSpacing: '0.2em',
-                  cursor: 'pointer',
-                  fontFamily: 'Rajdhani, sans-serif'
-                }}
-                whileHover={{
-                  scale: 1.05,
-                  borderColor: 'rgba(212, 165, 116, 0.8)',
-                  boxShadow: '0 0 20px rgba(212, 165, 116, 0.3)'
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                CLASSIFIED TRANSMISSIONS
-              </motion.button>
+              <div className="archive-header">
+                ▼ VAULT ACCESS DIRECTORY ▼
+              </div>
 
-              <motion.button
-                style={{
-                  padding: '1rem 3rem',
-                  border: '1px solid rgba(212, 165, 116, 0.2)',
-                  color: 'rgba(212, 165, 116, 0.3)',
-                  background: 'transparent',
-                  fontSize: '0.875rem',
-                  letterSpacing: '0.2em',
-                  cursor: 'not-allowed',
-                  fontFamily: 'Rajdhani, sans-serif'
-                }}
-              >
-                LIVE DATA STREAM [LOCKED]
-              </motion.button>
+              <div className="vault-drawer">
+                <motion.div
+                  className="vault-slot"
+                  onClick={() => setCurrentPage('transmissions')}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 1.3 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <div className="vault-label">
+                    <span>CLASSIFIED TRANSMISSIONS</span>
+                    <span className="vault-status">READY</span>
+                  </div>
+                </motion.div>
 
-              <motion.button
-                style={{
-                  padding: '1rem 3rem',
-                  border: '1px solid rgba(212, 165, 116, 0.2)',
-                  color: 'rgba(212, 165, 116, 0.3)',
-                  background: 'transparent',
-                  fontSize: '0.875rem',
-                  letterSpacing: '0.2em',
-                  cursor: 'not-allowed',
-                  fontFamily: 'Rajdhani, sans-serif'
-                }}
-              >
-                AMBIENT SYSTEMS [LOCKED]
-              </motion.button>
+                <motion.div
+                  className="vault-slot vault-slot-locked"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 1.4 }}
+                >
+                  <div className="vault-label">
+                    <span>LIVE DATA STREAM</span>
+                    <span className="vault-status">LOCKED</span>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="vault-slot vault-slot-locked"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 1.5 }}
+                >
+                  <div className="vault-label">
+                    <span>AMBIENT SYSTEMS</span>
+                    <span className="vault-status">LOCKED</span>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="vault-slot"
+                  onClick={() => window.open('https://wenfest.vercel.app/', '_blank')}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 1.6 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <div className="vault-label">
+                    <span>FIELD_001 [WENFEST]</span>
+                    <span className="vault-status">READY</span>
+                  </div>
+                </motion.div>
+              </div>
             </motion.div>
           </section>
         </div>
