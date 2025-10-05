@@ -19,6 +19,7 @@ interface PlaybackConsoleProps {
 
 export default function PlaybackConsole({ mix, onClose }: PlaybackConsoleProps) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.7);
@@ -118,7 +119,10 @@ export default function PlaybackConsole({ mix, onClose }: PlaybackConsoleProps) 
 
   // Load SoundCloud Widget API
   useEffect(() => {
-    if (!mix.soundcloudUrl) return;
+    if (!mix.soundcloudUrl) {
+      setIsLoading(false);
+      return;
+    }
 
     const script = document.createElement('script');
     script.src = 'https://w.soundcloud.com/player/api.js';
@@ -130,7 +134,10 @@ export default function PlaybackConsole({ mix, onClose }: PlaybackConsoleProps) 
         widgetRef.current = (window as any).SC.Widget(iframeRef.current);
 
         widgetRef.current.bind((window as any).SC.Widget.Events.READY, () => {
-          widgetRef.current.getDuration((d: number) => setDuration(d / 1000));
+          widgetRef.current.getDuration((d: number) => {
+            setDuration(d / 1000);
+            setIsLoading(false);
+          });
         });
 
         widgetRef.current.bind((window as any).SC.Widget.Events.PLAY_PROGRESS, (e: any) => {
@@ -209,15 +216,15 @@ export default function PlaybackConsole({ mix, onClose }: PlaybackConsoleProps) 
               <motion.div
                 className="status-indicator"
                 animate={{
-                  opacity: isPlaying ? [0.5, 1, 0.5] : 0.3,
+                  opacity: isLoading ? [0.3, 0.6, 0.3] : isPlaying ? [0.5, 1, 0.5] : 0.3,
                 }}
                 transition={{
-                  duration: 1.5,
+                  duration: isLoading ? 0.8 : 1.5,
                   repeat: Infinity,
                 }}
               />
               <span className="status-text">
-                {isPlaying ? 'TRANSMITTING' : 'STANDBY'}
+                {isLoading ? 'LOADING...' : isPlaying ? 'TRANSMITTING' : 'STANDBY'}
               </span>
             </div>
           </div>
@@ -252,8 +259,22 @@ export default function PlaybackConsole({ mix, onClose }: PlaybackConsoleProps) 
             </button>
 
             {/* Play/Pause */}
-            <button className="control-btn control-btn-main" onClick={togglePlayPause}>
-              {isPlaying ? (
+            <button className="control-btn control-btn-main" onClick={togglePlayPause} disabled={isLoading}>
+              {isLoading ? (
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                  <motion.circle
+                    cx="12"
+                    cy="12"
+                    r="8"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeDasharray="50"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                  />
+                </svg>
+              ) : isPlaying ? (
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
                   <path d="M8 6L8 18M16 6V18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>

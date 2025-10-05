@@ -22,7 +22,7 @@ const MIXES = [
   {
     id: 2,
     title: 'DNB + DUBSTEP',
-    artist: 'MSL',
+    artist: 'MSL + DRNO1',
     runtime: '60:00',
     albumArt: 'https://picsum.photos/seed/mix3/400/400',
     audioUrl: '',
