@@ -12,36 +12,40 @@ import Dust from './components/Dust';
 const MIXES = [
   {
     id: 1,
-    title: 'REPLICANT DREAMS',
-    artist: 'DJ DIEHARD',
-    runtime: '72:34',
+    title: '130-140 BPM TEST',
+    artist: 'DJ DIEHARD + DRNO1',
+    runtime: '60:00',
     albumArt: 'https://picsum.photos/seed/mix1/400/400',
-    audioUrl: ''
+    audioUrl: '',
+    soundcloudUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2180324547&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true'
   },
   {
     id: 2,
-    title: 'NEON PULSE',
-    artist: '4D + DR NO1',
-    runtime: '58:16',
-    albumArt: 'https://picsum.photos/seed/mix2/400/400',
-    audioUrl: ''
+    title: 'DNB + DUBSTEP',
+    artist: 'MSL',
+    runtime: '60:00',
+    albumArt: 'https://picsum.photos/seed/mix3/400/400',
+    audioUrl: '',
+    soundcloudUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2180318663%3Fsecret_token%3Ds-XPCxfjoTBXl&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true'
   },
   {
     id: 3,
-    title: 'BASELINE TEST',
-    artist: 'MSL B2B STATELESS',
-    runtime: '81:42',
+    title: 'DUB ON WAX',
+    artist: 'YETI',
+    runtime: '120:00',
     albumArt: 'https://picsum.photos/seed/mix3/400/400',
-    audioUrl: ''
+    audioUrl: '',
+    soundcloudUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2176689102&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true'
   },
   {
     id: 4,
-    title: 'DUB EXPLORATION',
-    artist: 'YETI',
-    runtime: '60:00',
-    albumArt: 'https://picsum.photos/seed/mix3/400/400',
-    audioUrl: ''
-  }
+    title: '170-180 BPM TEST',
+    artist: 'DIEHARD B2B STATELESS B2B MSL',
+    runtime: '76:46',
+    albumArt: 'https://picsum.photos/seed/mix2/400/400',
+    audioUrl: '',
+    soundcloudUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2088560235%3Fsecret_token%3Ds-y1SJrW3n9dn&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true'
+  },
 ];
 
 function App() {
@@ -363,7 +367,10 @@ function App() {
         <>
           {/* Floating Dust Particles */}
           <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 5 }}>
-            <Canvas camera={{ position: [0, 1.5, 3], fov: 60 }}>
+            <Canvas
+              camera={{ position: [0, 1.5, 3], fov: 60 }}
+              style={{ pointerEvents: 'none' }}
+            >
               <Dust count={800} />
             </Canvas>
           </div>

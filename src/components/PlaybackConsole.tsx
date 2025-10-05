@@ -9,6 +9,7 @@ interface Mix {
   runtime: string;
   albumArt: string;
   audioUrl: string;
+  soundcloudUrl?: string;
 }
 
 interface PlaybackConsoleProps {
@@ -23,7 +24,9 @@ export default function PlaybackConsole({ mix, onClose }: PlaybackConsoleProps) 
   const [volume, setVolume] = useState(0.7);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const animationRef = useRef<number | undefined>(undefined);
+  const widgetRef = useRef<any>(null);
 
   // Waveform visualization
   useEffect(() => {
@@ -113,8 +116,43 @@ export default function PlaybackConsole({ mix, onClose }: PlaybackConsoleProps) 
     };
   }, []);
 
+  // Load SoundCloud Widget API
+  useEffect(() => {
+    if (!mix.soundcloudUrl) return;
+
+    const script = document.createElement('script');
+    script.src = 'https://w.soundcloud.com/player/api.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    script.onload = () => {
+      if (iframeRef.current && (window as any).SC) {
+        widgetRef.current = (window as any).SC.Widget(iframeRef.current);
+
+        widgetRef.current.bind((window as any).SC.Widget.Events.READY, () => {
+          widgetRef.current.getDuration((d: number) => setDuration(d / 1000));
+        });
+
+        widgetRef.current.bind((window as any).SC.Widget.Events.PLAY_PROGRESS, (e: any) => {
+          setCurrentTime(e.currentPosition / 1000);
+        });
+      }
+    };
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, [mix.soundcloudUrl]);
+
   const togglePlayPause = () => {
-    if (audioRef.current) {
+    if (mix.soundcloudUrl && widgetRef.current) {
+      if (isPlaying) {
+        widgetRef.current.pause();
+      } else {
+        widgetRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    } else if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
@@ -255,8 +293,21 @@ export default function PlaybackConsole({ mix, onClose }: PlaybackConsoleProps) 
           {/* Grid decoration */}
           <div className="console-grid" />
 
-          {/* Audio element */}
-          <audio ref={audioRef} src={mix.audioUrl} />
+          {/* Audio element or SoundCloud iframe */}
+          {mix.soundcloudUrl ? (
+            <iframe
+              ref={iframeRef}
+              width="0"
+              height="0"
+              scrolling="no"
+              frameBorder="no"
+              allow="autoplay"
+              src={mix.soundcloudUrl}
+              style={{ display: 'none' }}
+            />
+          ) : (
+            <audio ref={audioRef} src={mix.audioUrl} />
+          )}
         </motion.div>
       </motion.div>
     </AnimatePresence>
