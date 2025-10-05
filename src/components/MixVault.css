@@ -1,0 +1,219 @@
+.mix-vault {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  cursor: pointer;
+  perspective: 1000px;
+}
+
+.vault-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  padding: 3rem;
+  background: linear-gradient(135deg,
+    rgba(42, 30, 0, 0.3),
+    rgba(0, 0, 0, 0.6)
+  );
+  border: 1px solid rgba(212, 165, 116, 0.2);
+  box-shadow:
+    0 0 40px rgba(212, 165, 116, 0.1),
+    inset 0 0 60px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.vault-layout::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg,
+    transparent 30%,
+    rgba(212, 165, 116, 0.03) 50%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.vault-canvas-container {
+  position: relative;
+  aspect-ratio: 1;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.vault-glow {
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle,
+    rgba(212, 165, 116, 0.4),
+    transparent 70%
+  );
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.vault-metadata {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  z-index: 1;
+  position: relative;
+}
+
+.metadata-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(212, 165, 116, 0.2);
+}
+
+.metadata-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  color: rgba(212, 165, 116, 0.6);
+  text-transform: uppercase;
+}
+
+.metadata-id {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #d4a574;
+  text-shadow: 0 0 10px rgba(212, 165, 116, 0.5);
+}
+
+.mix-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: #e8b86d;
+  text-shadow:
+    0 0 20px rgba(232, 184, 109, 0.4),
+    0 2px 0 rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.1em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.mix-artist {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(212, 165, 116, 0.8);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.metadata-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(212, 165, 116, 0.15);
+}
+
+.metadata-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metadata-value {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #d4a574;
+  letter-spacing: 0.1em;
+}
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(212, 165, 116, 0.03) 2px,
+    rgba(212, 165, 116, 0.03) 4px
+  );
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.access-indicator {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #d4a574;
+  letter-spacing: 0.2em;
+  text-align: right;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(212, 165, 116, 0.1);
+}
+
+.vault-accents {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.accent-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(to right,
+    transparent,
+    #d4a574,
+    transparent
+  );
+  box-shadow: 0 0 10px rgba(212, 165, 116, 0.6);
+  transform-origin: left;
+}
+
+.accent-top {
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.accent-bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+  .vault-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .vault-canvas-container {
+    max-width: 400px;
+  }
+
+  .metadata-footer {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Hover effects */
+.mix-vault:hover .vault-layout {
+  border-color: rgba(212, 165, 116, 0.4);
+  box-shadow:
+    0 0 60px rgba(212, 165, 116, 0.2),
+    inset 0 0 60px rgba(0, 0, 0, 0.5);
+}
