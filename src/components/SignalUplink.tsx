@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useForm, ValidationError } from '@formspree/react';
 import './SignalUplink.css';
 
 interface SignalUplinkProps {
@@ -18,15 +17,22 @@ const BENEFITS = [
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function SignalUplink({ onBack }: SignalUplinkProps) {
-  // Formspree: pass your form ID here
-  const [fsState, fsHandleSubmit] = useForm('meeygojd');
+  // Use a plain fetch-based submission so the project builds without @formspree/react
+  // The Formspree form id can be provided with REACT_APP_FORMSPREE_ID in the environment
+  const FORMSPREE_ID = process.env.REACT_APP_FORMSPREE_ID || 'meeygojd';
+  const FORMSPREE_ENDPOINT = `https://formspree.io/f/${FORMSPREE_ID}`;
 
   // local email state to keep the existing UX (placeholder, live edit)
   const [email, setEmail] = useState('');
-  // local validation error (client-side pattern)
+  // client-side message first
   const [localError, setLocalError] = useState<string | null>(null);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  // replacement for the Formspree hook state
+  const [submitting, setSubmitting] = useState(false);
+  const [succeeded, setSucceeded] = useState(false);
+  const [errors, setErrors] = useState<Array<{ field?: string; message: string }>>([]);
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // client-side validate first (gives faster feedback)
@@ -35,10 +41,45 @@ export default function SignalUplink({ onBack }: SignalUplinkProps) {
       return;
     }
     setLocalError(null);
+    setErrors([]);
 
-    // forward the event to Formspree's handleSubmit which reads inputs by name
-    // fsHandleSubmit will update fsState.submitting and fsState.succeeded
-    return fsHandleSubmit(e);
+    setSubmitting(true);
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (res.ok) {
+        setSucceeded(true);
+        return;
+      }
+
+      // try to parse formspree-style error payloads
+      let payload: any = null;
+      try {
+        payload = await res.json();
+      } catch (err) {
+        // ignore JSON parse errors
+      }
+
+      // Formspree v2 often returns { errors: [{ message, field? }] }
+      if (payload && Array.isArray(payload.errors)) {
+        const mapped = payload.errors.map((er: any) => ({ field: er.field, message: er.message || 'TRANSMISSION FAILED.' }));
+        setErrors(mapped);
+      } else {
+        // generic fallback
+        setErrors([{ message: 'TRANSMISSION FAILED. RETRY LATER.' }]);
+      }
+    } catch (err) {
+      setErrors([{ message: 'TRANSMISSION FAILED. RETRY LATER.' }]);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -103,7 +144,7 @@ export default function SignalUplink({ onBack }: SignalUplinkProps) {
           transition={{ duration: 1, delay: 1 }}
         >
           <AnimatePresence mode="wait">
-            {fsState.succeeded ? (
+            {succeeded ? (
               <motion.div
                 key="success"
                 className="signal-success"
@@ -143,32 +184,35 @@ export default function SignalUplink({ onBack }: SignalUplinkProps) {
                     onChange={(e) => {
                       setEmail(e.target.value);
                       if (localError) setLocalError(null);
+                      if (errors.length) setErrors([]);
                     }}
-                    disabled={fsState.submitting}
-                    aria-invalid={!!localError || (fsState.errors && fsState.errors.length > 0)}
+                    disabled={submitting}
+                    aria-invalid={!!localError || errors.length > 0}
                   />
                   <motion.button
                     type="submit"
                     className="signal-submit"
-                    disabled={fsState.submitting}
+                    disabled={submitting}
                     whileHover={{
                       borderColor: 'rgba(212, 165, 116, 0.8)',
                       boxShadow: '0 0 20px rgba(212, 165, 116, 0.3)',
                     }}
                     whileTap={{ scale: 0.97 }}
                   >
-                    {fsState.submitting ? 'TRANSMITTING...' : '◆ REQUEST ACCESS'}
+                    {submitting ? 'TRANSMITTING...' : '◆ REQUEST ACCESS'}
                   </motion.button>
                 </div>
 
                 {/* client-side message first */}
                 {localError && <p className="signal-error">{localError}</p>}
 
-                {/* Formspree ValidationError will render field-level errors returned by Formspree */}
-                <ValidationError prefix="EMAIL" field="email" errors={fsState.errors} />
+                {/* field-level errors returned by the endpoint */}
+                {errors.filter(e => e.field === 'email').map((e, i) => (
+                  <p key={`email-err-${i}`} className="signal-error">{e.message}</p>
+                ))}
 
-                {/* If Formspree returns a non-field error, show a generic message */}
-                {fsState.errors && fsState.errors.length > 0 && fsState.errors.some(e => !e.field) && (
+                {/* If the endpoint returns a non-field error, show a generic message */}
+                {errors.length > 0 && errors.some(e => !e.field) && (
                   <p className="signal-error">TRANSMISSION FAILED. RETRY LATER.</p>
                 )}
               </motion.form>
