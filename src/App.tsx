@@ -8,6 +8,7 @@ import AmbientSound from './components/AmbientSound';
 import WencorpLogo from './components/WencorpLogo';
 import WallaceOffice from './components/WallaceOffice';
 import Dust from './components/Dust';
+import SignalUplink from './components/SignalUplink';
 
 const MIXES = [
   {
@@ -46,14 +47,50 @@ const MIXES = [
     audioUrl: '',
     soundcloudUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2088560235%3Fsecret_token%3Ds-y1SJrW3n9dn&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false'
   },
+  {
+    id: 5,
+    title: 'LAYLOW FM JANUARY 2026',
+    artist: 'DIEHARD',
+    runtime: '120:08',
+    albumArt: 'https://i1.sndcdn.com/artworks-Qmhu6uCUh79Jyy0u-o6uRuQ-t500x500.jpg',
+    audioUrl: '',
+    soundcloudUrl: 'https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2256941852&color=%23ff5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false'
+  },
 ];
 
+type Page = 'splash' | 'transmissions' | 'ambient' | 'signal';
+
+const PAGE_PATHS: Partial<Record<Page, string>> = {
+  signal: '/signup',
+};
+
+function pageForPath(pathname: string): Page {
+  if (pathname === '/signup') return 'signal';
+  return 'splash';
+}
+
 function App() {
-  const [currentPage, setCurrentPage] = useState<'splash' | 'transmissions' | 'ambient'>('splash');
+  const [currentPage, setCurrentPage] = useState<Page>(() => pageForPath(window.location.pathname));
   const [selectedMix, setSelectedMix] = useState<number | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll();
+
+  const navigateTo = (page: Page) => {
+    setCurrentPage(page);
+    const path = PAGE_PATHS[page] ?? '/';
+    if (window.location.pathname !== path) {
+      window.history.pushState({ page }, '', path);
+    }
+  };
+
+  useEffect(() => {
+    const onPopState = () => {
+      setCurrentPage(pageForPath(window.location.pathname));
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
 
   useEffect(() => {
     const unsubscribe = scrollYProgress.on('change', (latest) => {
@@ -76,7 +113,9 @@ function App() {
 
   return (
     <div className="app-container" ref={containerRef}>
-      {currentPage === 'ambient' ? (
+      {currentPage === 'signal' ? (
+        <SignalUplink onBack={() => navigateTo('splash')} />
+      ) : currentPage === 'ambient' ? (
         // AMBIENT SYSTEMS PAGE (Wallace Office)
         <WallaceOffice>
           <motion.button
@@ -405,6 +444,21 @@ function App() {
                 >
                   <div className="vault-label">
                     <span>FIELD_001 [WENFEST]</span>
+                    <span className="vault-status">READY</span>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="vault-slot"
+                  onClick={() => navigateTo('signal')}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 1.7 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <div className="vault-label">
+                    <span>JOIN THE NETWORK</span>
                     <span className="vault-status">READY</span>
                   </div>
                 </motion.div>
