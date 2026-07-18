@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useForm, ValidationError } from '@formspree/react';
 import './SignalUplink.css';
 
 interface SignalUplinkProps {
@@ -14,28 +15,30 @@ const BENEFITS = [
   { label: 'AND MORE', detail: 'CLASSIFICATION PENDING' },
 ];
 
-type Status = 'idle' | 'submitting' | 'success' | 'error';
-
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function SignalUplink({ onBack }: SignalUplinkProps) {
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<Status>('idle');
+  // Formspree: pass your form ID here
+  const [fsState, fsHandleSubmit] = useForm('meeygojd');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // local email state to keep the existing UX (placeholder, live edit)
+  const [email, setEmail] = useState('');
+  // local validation error (client-side pattern)
+  const [localError, setLocalError] = useState<string | null>(null);
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // client-side validate first (gives faster feedback)
     if (!EMAIL_PATTERN.test(email)) {
-      setStatus('error');
+      setLocalError('INVALID FREQUENCY. RE-ENTER TO PROCEED.');
       return;
     }
+    setLocalError(null);
 
-    setStatus('submitting');
-
-    // TODO: wire to a real mailing list provider (Mailchimp / ConvertKit / Substack API).
-    // This is a placeholder that simulates a successful subscription.
-    setTimeout(() => {
-      setStatus('success');
-    }, 900);
+    // forward the event to Formspree's handleSubmit which reads inputs by name
+    // fsHandleSubmit will update fsState.submitting and fsState.succeeded
+    return fsHandleSubmit(e);
   };
 
   return (
@@ -100,7 +103,7 @@ export default function SignalUplink({ onBack }: SignalUplinkProps) {
           transition={{ duration: 1, delay: 1 }}
         >
           <AnimatePresence mode="wait">
-            {status === 'success' ? (
+            {fsState.succeeded ? (
               <motion.div
                 key="success"
                 className="signal-success"
@@ -121,7 +124,7 @@ export default function SignalUplink({ onBack }: SignalUplinkProps) {
               <motion.form
                 key="form"
                 className="signal-form"
-                onSubmit={handleSubmit}
+                onSubmit={onSubmit}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -132,31 +135,41 @@ export default function SignalUplink({ onBack }: SignalUplinkProps) {
                 <div className="signal-input-row">
                   <input
                     id="signal-email"
+                    name="email"
                     type="email"
                     className="signal-input"
                     placeholder="you@frequency.com"
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
-                      if (status === 'error') setStatus('idle');
+                      if (localError) setLocalError(null);
                     }}
-                    disabled={status === 'submitting'}
+                    disabled={fsState.submitting}
+                    aria-invalid={!!localError || (fsState.errors && fsState.errors.length > 0)}
                   />
                   <motion.button
                     type="submit"
                     className="signal-submit"
-                    disabled={status === 'submitting'}
+                    disabled={fsState.submitting}
                     whileHover={{
                       borderColor: 'rgba(212, 165, 116, 0.8)',
                       boxShadow: '0 0 20px rgba(212, 165, 116, 0.3)',
                     }}
                     whileTap={{ scale: 0.97 }}
                   >
-                    {status === 'submitting' ? 'TRANSMITTING...' : '◆ REQUEST ACCESS'}
+                    {fsState.submitting ? 'TRANSMITTING...' : '◆ REQUEST ACCESS'}
                   </motion.button>
                 </div>
-                {status === 'error' && (
-                  <p className="signal-error">INVALID FREQUENCY. RE-ENTER TO PROCEED.</p>
+
+                {/* client-side message first */}
+                {localError && <p className="signal-error">{localError}</p>}
+
+                {/* Formspree ValidationError will render field-level errors returned by Formspree */}
+                <ValidationError prefix="EMAIL" field="email" errors={fsState.errors} />
+
+                {/* If Formspree returns a non-field error, show a generic message */}
+                {fsState.errors && fsState.errors.length > 0 && fsState.errors.some(e => !e.field) && (
+                  <p className="signal-error">TRANSMISSION FAILED. RETRY LATER.</p>
                 )}
               </motion.form>
             )}
